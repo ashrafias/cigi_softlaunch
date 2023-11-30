@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677360753503",
+    "project_id": "cigijobportalapp-fa325",
+    "storage_bucket": "cigijobportalapp-fa325.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677360753503:android:a2756c7c02f427fa4174ea",
+        "android_client_info": {
+          "package_name": "com.example.job_portal_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGpFDOiJBahWyIn1xxFVt1chvmCNdNmS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
