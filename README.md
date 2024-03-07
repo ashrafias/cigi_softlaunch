@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+Use below commands when you get error "Type Error: Class constructor cannot be invoked without 'new'"
+flutter run -d chrome --release 
+flutter run -d chrome --profile
