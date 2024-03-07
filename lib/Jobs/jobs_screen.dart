@@ -11,15 +11,15 @@ import 'package:job_portal_app/Widgets/job_widget.dart';
   class JobScreen extends StatefulWidget {
   const JobScreen({super.key});
 
-    
+
     @override
       State<JobScreen> createState() => _JobScreenState();
   }
 
   class _JobScreenState extends State<JobScreen> {
-    
+
       String? jobCategoryFilter;
-    
+
     //final FirebaseAuth _auth = FirebaseAuth.instance;
 
 _showTaskCategoriesDialog({required Size size}) {
@@ -43,7 +43,7 @@ _showTaskCategoriesDialog({required Size size}) {
                       onTap: () {
                         setState(() {
                           jobCategoryFilter = Persistent.jobCategoryList[index];
-                             
+
                         });
                        Navigator.canPop(context)
                             ? Navigator.pop(context)
@@ -111,7 +111,27 @@ _showTaskCategoriesDialog({required Size size}) {
     // TODO: implement initState
       super.initState();
        Persistent persistentObject = Persistent();
-      persistentObject.getMyData(); 
+      persistentObject.getMyData();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> buildUrl(){
+
+    Stream<QuerySnapshot<Map<String, dynamic>>> data = Stream.empty();
+    try {
+      print("Category is not empty");
+      print(jobCategoryFilter);
+      Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection('jobs').where("deadLineDateTimeStamp", isGreaterThanOrEqualTo: DateTime.now());
+      print("buildUrl is called");
+      if(jobCategoryFilter != null && jobCategoryFilter!.isNotEmpty){
+        query = FirebaseFirestore.instance.collection('jobs').where("deadLineDateTimeStamp", isGreaterThanOrEqualTo: DateTime.now()).where('jobCategory', whereIn: [jobCategoryFilter]).orderBy("deadLineDateTimeStamp", descending: false);
+      }
+      data = query.snapshots();
+    }on Exception catch(_){
+      print("Error Occurred ::::::::::::::::::::");
+    }
+
+    // query = query.orderBy('deadLineDateTimeStamp', descending: false);
+    return data;
   }
 
 
@@ -125,7 +145,7 @@ _showTaskCategoriesDialog({required Size size}) {
   bottomNavigationBar: BottomNavigationBarForApp(indexNum: 0),
 
           backgroundColor: Colors.transparent,
-        
+
           appBar: AppBar(flexibleSpace: Container(
             decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.lightBlue.shade100, Colors.blueAccent],
         begin: Alignment.centerLeft, end: Alignment.centerRight, stops: const [0.2, 0.9])),
@@ -155,16 +175,15 @@ _showTaskCategoriesDialog({required Size size}) {
           ),
 
        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection('jobs').where('jobCategory', isEqualTo: jobCategoryFilter).where('recruitment', isEqualTo: true).orderBy('createdAt', descending: false).snapshots(),
+              stream: buildUrl(),
               builder: (context, AsyncSnapshot snapshot) {
                // print(snapshot.connectionState);
-                
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 } else if (snapshot.connectionState == ConnectionState.active) {
-                  
+
                //   print('snapshot.data?.docs.isNotEmpty: ${snapshot.data?.docs.isNotEmpty}');
                //   print('snapshot.data?.docs: ${snapshot.data?.docs}');
                   if (snapshot.data?.docs.isNotEmpty == true) {
@@ -172,7 +191,7 @@ _showTaskCategoriesDialog({required Size size}) {
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           return JobWidget(
-                            jobTitle: snapshot.data?.docs[index]['jobCategory'],                  
+                            jobTitle: snapshot.data?.docs[index]['jobCategory'],
                             jobDesciption: snapshot.data?.docs[index]
                                 ['jobDescription'],
                             jobID: snapshot.data?.docs[index]['jobId'],
