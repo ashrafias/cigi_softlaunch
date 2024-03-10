@@ -23,6 +23,11 @@ class _UploadJobNowState extends State<UploadJobNow> {
   final TextEditingController _jobCategoryController =
       TextEditingController(text: 'Select Job Category ');
   final TextEditingController _jobTitleController = TextEditingController();
+
+  final TextEditingController _companyNameController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+
   final TextEditingController _JobDescriptionController =
       TextEditingController();
   final TextEditingController _deadlineController =
@@ -179,11 +184,12 @@ class _UploadJobNowState extends State<UploadJobNow> {
       lastDate: DateTime(2100),  
     );
     print('picked: $picked');
+    print('updated ::::::::::::::::');
     if (picked != null) {
       setState(() {
         _deadlineController.text =
             '${picked!.year} - ${picked!.month} -${picked!.day}';
-     
+
         deadlineDateTimeStamp = Timestamp.fromMicrosecondsSinceEpoch(picked!.microsecondsSinceEpoch);//Constructs a new DateTime instance with the given millisecondsSinceEpoch.
             print('deadlineDateTimeStamp: $deadlineDateTimeStamp');
       });
@@ -212,12 +218,15 @@ class _UploadJobNowState extends State<UploadJobNow> {
           'jobId': jodId,
           'uploadedby': _uid,
           'email': user.email,
+          'companyName': _companyNameController.text,
           'jobTitle': _jobTitleController.text,
           'jobDescription': _JobDescriptionController.text,
           'deadLineDate': _deadlineController.text,
-          'deadLineDateTimeStamp': deadlineDateTimeStamp,
+          'deadLineDateTimeStamp': deadlineDateTimeStamp, // picked?.millisecondsSinceEpoch, // deadlineDateTimeStamp?.millisecondsSinceEpoch,
           'jobCategory': _jobCategoryController.text,
           'jobComments': [],
+          'city': _cityController.text,
+          'country': _countryController.text,
           'recruitment': true,
           'createdAt': Timestamp.now(),
           'name': name,
@@ -332,6 +341,14 @@ class _UploadJobNowState extends State<UploadJobNow> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            _textTitle(label: 'Company Name: '),
+                            _textFormFields(
+                              valueKey: 'Company Name',
+                              controller: _companyNameController,
+                              enabled: true,
+                              fct: () {},
+                              maxLength: 100,
+                            ),
                             _textTitle(label: 'Job Category: '),
                             _textFormFields(
                               valueKey: 'Job Category ',
@@ -366,6 +383,22 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               fct: () {
                                 _pickDateDialog();
                               },
+                              maxLength: 100,
+                            ),
+                            _textTitle(label: 'City: '),
+                            _textFormFields(
+                              valueKey: 'City',
+                              controller: _cityController,
+                              enabled: true,
+                              fct: () {},
+                              maxLength: 100,
+                            ),
+                            _textTitle(label: 'Country: '),
+                            _textFormFields(
+                              valueKey: 'Country',
+                              controller: _countryController,
+                              enabled: true,
+                              fct: () {},
                               maxLength: 100,
                             ),
                           ],
