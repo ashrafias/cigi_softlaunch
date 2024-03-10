@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_portal_app/Jobs/jobs_screen.dart';
@@ -116,6 +117,12 @@ var date = deadlineDateTimestamp!.toDate();
  //Apply for job => called on EasyApply
  applyForJob()
  {
+    if(kIsWeb){
+
+    }else{
+
+    }
+
    final Uri params = Uri(
       scheme: 'mailto',
       path: emailCompany,
