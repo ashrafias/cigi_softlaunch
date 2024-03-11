@@ -142,7 +142,7 @@ _showTaskCategoriesDialog({required Size size}) {
         decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.lightBlue.shade100, Colors.blueAccent],
         begin: Alignment.centerLeft, end: Alignment.centerRight, stops: const [0.2, 0.9])),
         child: Scaffold(
-  bottomNavigationBar: BottomNavigationBarForApp(indexNum: 0),
+          bottomNavigationBar: BottomNavigationBarForApp(indexNum: 0),
 
           backgroundColor: Colors.transparent,
 
