@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
   final _signUpFormKey = GlobalKey<FormState>();
-  File? imageFile; //contains image that user selects, currently empty
+  // File? imageFile; //contains image that user selects, currently empty
   final TextEditingController _fullNameContoller =
       TextEditingController(text: '');
     final TextEditingController _emailTextController =
@@ -149,39 +149,39 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   void _getFromCamera() async {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.camera);
-    _cropImage(pickedFile!.path);
+    // _cropImage(pickedFile!.path);
     Navigator.pop(context);
   }
 
   void _getFromGallery() async {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
-    _cropImage(pickedFile!.path);
+    // _cropImage(pickedFile!.path);
 
     Navigator.pop(context);
   }
 
-  void _cropImage(filePath) async {
+  /*void _cropImage(filePath) async {
     CroppedFile? croppedImage = await ImageCropper()
         .cropImage(sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
 
     if (croppedImage != null) {
       setState(() {
-        imageFile = File(croppedImage.path);  //set path of chosen image
+        // imageFile = File(croppedImage.path);  //set path of chosen image
       });
     }
-  }
+  }*/
 
     void _submitFormOnSignUp() async {
     final isValid = _signUpFormKey.currentState!.validate();
     if (isValid) {
-      if (imageFile == null) {
+      /*if (imageFile == null) {
         GlobalMethod.showErrorDialog(
           error: 'Please pick an image',
           ctx: context,
         );
         return;
-      }
+      }*/
       setState(() {
         _isLoading = true;
       });
@@ -193,17 +193,17 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
         );
         final User? user = _auth.currentUser;
         final _uid = user!.uid;
-        final ref = FirebaseStorage.instance
+        /*final ref = FirebaseStorage.instance
             .ref()
             .child('userImages')
             .child(_uid + ' .jpg');
-        await ref.putFile(imageFile!);
-        imageUrl = await ref.getDownloadURL();
+        await ref.putFile(imageFile!);*/
+        // imageUrl = await ref.getDownloadURL();
         FirebaseFirestore.instance.collection('users').doc(_uid).set({
           'id': _uid,
           'name': _fullNameContoller.text,
           'email': _emailTextController.text,
-          'userImage': imageUrl,
+          'userImage': 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
           "phoneNumber": _phoneNumberController.text,
           'location': _locationController.text,
           'createdAt': Timestamp.now(),
@@ -230,7 +230,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
     return Scaffold(
       body: Stack(
         children: [
-          CachedNetworkImage
+          /*CachedNetworkImage
           (
             imageUrl: signUpUrlImage,
             placeholder: (context, url) => Image.asset(
@@ -242,7 +242,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
             height: double.infinity,
             fit: BoxFit.cover,
             alignment: FractionalOffset(_animation.value, 0),
-          ),
+          ),*/
            Container(
             color: Colors.black54, //black color *
             child: Padding(
@@ -253,7 +253,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                           key: _signUpFormKey,
                           child: Column(
                       children: [
-                        GestureDetector(
+                        /*GestureDetector(
                         onTap: () {
                             //Create ShowImageDialog
                             _showImageDialog();
@@ -287,7 +287,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                          const SizedBox(
                           height: 20,
                         ),
